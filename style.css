@@ -1,0 +1,23 @@
+#form {
+    display: flex;
+    margin-top: 100px;
+}
+
+#postList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+}
+
+
+.post-div {
+    margin: 60px 0px 0px 50px;
+    background-color: white;
+    width: 400px;
+    height: 150px;
+    border: 1px solid white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: transform 500ms ease;
+
+}
