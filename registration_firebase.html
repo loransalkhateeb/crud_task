@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.1/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="square">
+            <form id="contactForm">
+                <div class="Username">
+                    <label for="Username">Username</label>
+                    <input type="text" id="Username" name="Username">
+                </div>
+                <div class="Password">
+                    <label for="Password">Password</label>
+                    <input type="password" id="Password" name="Password">
+                </div>
+                <div class="Email">
+                    <label for="Email">Email</label>
+                    <input type="email" id="Email" name="Email">
+                </div>
+                <div class="PhoneNumber">
+                    <label for="PhoneNumber">Phone Number</label>
+                    <input type="tel" id="PhoneNumber" name="PhoneNumber">
+                </div>
+                <div class="Submit">
+                    <button type="button" id="signup">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+       const firebaseConfig = {
+  apiKey: "AIzaSyBgFzCP9k8PqheHd59nZetrv1vmJl9hfZk",
+  authDomain: "registration-96053.firebaseapp.com",
+  databaseURL: "https://registration-96053-default-rtdb.firebaseio.com",
+  projectId: "registration-96053",
+  storageBucket: "registration-96053.appspot.com",
+  messagingSenderId: "512620777881",
+  appId: "1:512620777881:web:d4677718a2e2d872fec308",
+  measurementId: "G-8VBQ9ZYZ85"
+};
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        document.getElementById('signup').addEventListener('click', function () {
+            const email = document.getElementById('Email').value;
+            const password = document.getElementById('Password').value;
+            const phoneNumber = document.getElementById('PhoneNumber').value;
+            const username = document.getElementById('Username').value;
+
+            // Create user with email and password
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log(user);
+
+                    // Save user data to Firestore
+                    return db.collection('users').doc(email).set({
+                        username: username,
+                        email: email,
+                        phoneNumber: phoneNumber,
+                    });
+                })
+                .then(() => {
+                    console.log('User data saved to Firestore successfully.');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error(`${errorCode}: ${errorMessage}`);
+                });
+        });
+    </script>
+</body>
+
+</html>
